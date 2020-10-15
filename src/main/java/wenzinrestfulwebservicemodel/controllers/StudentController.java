@@ -23,8 +23,9 @@ public class StudentController {
         StudentRegistration.getInstance().add(student);
 
         stdregReply.setName(student.getName());
-        stdregReply.setAge(student.getAge());
-        stdregReply.setRegistrationNumber(student.getRegistrationnumber());
+        stdregReply.setDescription(student.getDescription());
+        stdregReply.setIdStudent(student.getId());
+        stdregReply.setListOfCourses(student.getListOfCourses());
         stdregReply.setRegistrationStatus("Successful");
 
         return stdregReply;

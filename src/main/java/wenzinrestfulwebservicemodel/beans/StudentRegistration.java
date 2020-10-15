@@ -30,7 +30,7 @@ public class StudentRegistration {
     public String updateStudent(Student student) {
         for (int i = 0; i < studentRecords.size(); i++) {
             Student student1 = studentRecords.get(i);
-            if (student1.getRegistrationnumber().equals(student.getRegistrationnumber())) {
+            if (student1.getId().equals(student.getId())) {
                 studentRecords.set(i, student);
                 return "Update Successful";
             }
@@ -42,7 +42,7 @@ public class StudentRegistration {
 
         for (int i = 0; i < studentRecords.size(); i++) {
             Student student = studentRecords.get(i);
-            if (student.getRegistrationnumber().equals(registrationNumber)) {
+            if (student.getId().equals(registrationNumber)) {
                 studentRecords.remove(i);
                 return "Delete successful";
             }

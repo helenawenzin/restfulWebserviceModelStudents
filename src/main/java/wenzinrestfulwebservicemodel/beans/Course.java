@@ -2,20 +2,12 @@ package wenzinrestfulwebservicemodel.beans;
 
 import java.util.List;
 
-public class Student {
+public class Course {
 
     String id;
     String name;
     String description;
-    List<Course> listOfCourses;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    List<String> stepsToFinishCourse;
 
     public String getId() {
         return id;
@@ -23,6 +15,14 @@ public class Student {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -33,11 +33,11 @@ public class Student {
         this.description = description;
     }
 
-    public List<Course> getListOfCourses() {
-        return listOfCourses;
+    public List<String> getStepsToFinishCourse() {
+        return stepsToFinishCourse;
     }
 
-    public void setListOfCourses(List<Course> listOfCourses) {
-        this.listOfCourses = listOfCourses;
+    public void setStepsToFinishCourse(List<String> stepsToFinishCourse) {
+        this.stepsToFinishCourse = stepsToFinishCourse;
     }
 }
