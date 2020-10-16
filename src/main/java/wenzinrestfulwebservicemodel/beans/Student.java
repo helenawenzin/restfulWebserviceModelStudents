@@ -1,13 +1,13 @@
 package wenzinrestfulwebservicemodel.beans;
 
-import java.util.List;
+import java.util.Set;
 
 public class Student {
 
     String id;
     String name;
     String description;
-    List<Course> listOfCourses;
+    Set<String> courses;
 
     public String getName() {
         return name;
@@ -33,11 +33,11 @@ public class Student {
         this.description = description;
     }
 
-    public List<Course> getListOfCourses() {
-        return listOfCourses;
+    public Set<String> getCourses() {
+        return courses;
     }
 
-    public void setListOfCourses(List<Course> listOfCourses) {
-        this.listOfCourses = listOfCourses;
+    public void setCourses(Set<String> courses) {
+        this.courses = courses;
     }
 }
