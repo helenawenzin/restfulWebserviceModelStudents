@@ -51,4 +51,21 @@ public class StudentRegistration {
     public List<Student> getStudentRecords() {
         return studentRecords;
     }
+
+    public Student getStudent(String studentId) {
+
+        Student student = new Student();
+
+        for (int i = 0; i < studentRecords.size(); i++) {
+            Student st = studentRecords.get(i);
+            if (st.getId().equals(studentId)) {
+
+                student.setName(st.getName());
+                student.setId(st.getId());
+                student.setDescription(st.getDescription());
+                student.setCourses(st.getCourses());
+            }
+        } return student;
+    }
+
 }

@@ -10,11 +10,16 @@ import java.util.List;
 @RestController
 public class StudentController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/student/allstudent")
-    public List<Student> getStudent() {
+    @RequestMapping(method = RequestMethod.GET, value = "/student/allstudents")
+    public List<Student> getStudents() {
         return StudentRegistration.getInstance().getStudentRecords();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/student/{studentId}")
+    public Student getStudentById(@PathVariable("studentId") String studentId) {
+        return StudentRegistration.getInstance().getStudent(studentId);
+    }
+    
     @RequestMapping(method = RequestMethod.POST, value = "/register/student")
     public StudentRegistrationReply registerStudent(@RequestBody Student student) {
 
