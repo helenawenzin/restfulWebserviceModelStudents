@@ -23,9 +23,7 @@ public class StudentRegistration {
         }
     }
 
-    public void  add(Student student) {
-        studentRecords.add(student);
-    }
+    public void  add(Student student) {studentRecords.add(student);}
 
     public String updateStudent(Student student) {
         for (int i = 0; i < studentRecords.size(); i++) {
