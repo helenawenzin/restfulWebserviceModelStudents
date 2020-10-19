@@ -1,5 +1,8 @@
 package wenzinrestfulwebservicemodel.beans;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +36,9 @@ public class CourseRegistration {
             Course courseDetails = courseRecords.get(i);
             if (courseDetails.getId().equals(courseId)) {
                 return courseDetails;
-            } else {
-                throw new IllegalArgumentException();
             }
         }
-        return null;
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course not found");
     }
 
     public void  add(Course course) {courseRecords.add(course);}

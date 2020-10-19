@@ -1,5 +1,8 @@
 package wenzinrestfulwebservicemodel.beans;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -104,7 +107,7 @@ public class StudentRegistration {
         if (student.getCourses().contains(courseId)) {
             return CourseRegistration.getInstance().getCourseById(courseId);
         } else {
-            throw new IllegalArgumentException("Invalid courseId provided");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course not found");
         }
     }
 
