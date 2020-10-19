@@ -1,8 +1,11 @@
 package wenzinrestfulwebservicemodel.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import wenzinrestfulwebservicemodel.beans.*;
+import wenzinrestfulwebservicemodel.beans.Course;
+import wenzinrestfulwebservicemodel.beans.CourseRegistration;
+import wenzinrestfulwebservicemodel.beans.CourseRegistrationReply;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -10,11 +13,13 @@ public class CourseController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/course/allcourses")
     public List<Course> getAllCourses() {
-        return CourseRegistration.getInstance().getCourseRecords();
+        return new ArrayList<>(CourseRegistration.getInstance().getCourseRecords().values());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/course/{courseId}")
-    public Course getCoursebyId(@PathVariable("courseId") String courseId) { return CourseRegistration.getInstance().getCourseById(courseId);}
+    public Course getCoursebyId(@PathVariable("courseId") String courseId) {
+        return CourseRegistration.getInstance().getCourseById(courseId);
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/register/course")
     public CourseRegistrationReply registerCourse(@RequestBody Course course) {

@@ -4,18 +4,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StudentRegistration {
 
-    private List<Student> studentRecords;
+    private Map<String, Student> studentRecords;
 
     private static StudentRegistration stdreg = null;
 
     private StudentRegistration() {
-        studentRecords = new ArrayList<Student>();
+        studentRecords = new HashMap<>();
     }
 
     public static StudentRegistration getInstance() {
@@ -28,65 +29,36 @@ public class StudentRegistration {
         }
     }
 
-    public void  add(Student student) {studentRecords.add(student);}
+    public void add(Student student) {
+        studentRecords.put(student.getId(), student);
+    }
 
     public String updateStudent(Student student) {
-        for (int i = 0; i < studentRecords.size(); i++) {
-            Student student1 = studentRecords.get(i);
-            if (student1.getId().equals(student.getId())) {
-                studentRecords.set(i, student);
-                return "Update Successful";
-            }
-        }
-        return "Update un-succesful";
+        studentRecords.put(student.getId(), student);
+        return "Update successful";
     }
 
     public String deleteStudent(String studentId) {
-
-        for (int i = 0; i < studentRecords.size(); i++) {
-            Student student = studentRecords.get(i);
-            if (student.getId().equals(studentId)) {
-                studentRecords.remove(i);
-                return "Delete successful";
-            }
-        }
-        return "Update un-successful";
+        studentRecords.remove(studentId);
+        return "Delete successful";
     }
 
     public List<Student> getStudentRecords() {
-        return studentRecords;
+        return new ArrayList<>(studentRecords.values());
     }
 
     public Student getStudent(String studentId) {
-
-        Student student = new Student();
-
-        for (int i = 0; i < studentRecords.size(); i++) {
-            Student st = studentRecords.get(i);
-            if (st.getId().equals(studentId)) {
-
-                student.setName(st.getName());
-                student.setId(st.getId());
-                student.setDescription(st.getDescription());
-                student.setCourses(st.getCourses());
-            }
-        } return student;
+        return studentRecords.get(studentId);
     }
 
     public List<Course> getAllCoursesForStudent(String studentId) {
 
-        Student student = new Student();
+        Student student = studentRecords.get(studentId);
 
-        for (int i = 0; i < studentRecords.size(); i++) {
-            Student st = studentRecords.get(i);
-            if (st.getId().equals(studentId)) {
-                student.setCourses(st.getCourses());
-            }
-        }
+        Map<String, Course> allCourses = CourseRegistration.getInstance().getCourseRecords();
 
-        List<Course> allCourses = CourseRegistration.getInstance().getCourseRecords();
-
-        List<Course> coursesForStudent = allCourses.stream()
+        List<Course> coursesForStudent = allCourses.values()
+                .stream()
                 .filter(course -> student.getCourses().contains(course.getId()))
                 .collect(Collectors.toList());
 
@@ -95,14 +67,7 @@ public class StudentRegistration {
 
     public Course getSpecificCourseForStudent(String studentId, String courseId) {
 
-        Student student = new Student();
-
-        for (int i = 0; i < studentRecords.size(); i++) {
-            Student st = studentRecords.get(i);
-            if (st.getId().equals(studentId)) {
-                student.setCourses(st.getCourses());
-            }
-        }
+        Student student = studentRecords.get(studentId);
 
         if (student.getCourses().contains(courseId)) {
             return CourseRegistration.getInstance().getCourseById(courseId);
@@ -112,34 +77,24 @@ public class StudentRegistration {
     }
 
     public String addCourseToStudent(String studentId, String courseId) {
+        Course course = CourseRegistration.getInstance().getCourseRecords().get(courseId);
 
-        for (int i = 0; i < studentRecords.size(); i++) {
-            Student student = studentRecords.get(i);
-            if (student.getId().equals(studentId)) {
-
-                Set<String> courses = student.getCourses();
-                courses.add(courseId);
-                student.setCourses(courses);
-                studentRecords.set(i, student);
-                return "Update successful";
-            }
+        if (course == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course not found");
         }
-        return "Update not succesful";
+        Student student = studentRecords.get(studentId);
+        student.getCourses().add(courseId);
+        return "Update successful";
     }
 
     public String deleteCourseToStudent(String studentId, String courseId) {
+        Student student = studentRecords.get(studentId);
 
-        for (int i = 0; i < studentRecords.size(); i++) {
-            Student student = studentRecords.get(i);
-            if (student.getId().equals(studentId)) {
-
-                Set<String> courses = student.getCourses();
-                courses.remove(courseId);
-                student.setCourses(courses);
-                studentRecords.set(i, student);
-                return "Update successful";
-            }
+        if (student.getCourses().contains(courseId)) {
+            student.getCourses().remove(courseId);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course not found");
         }
-        return "Update not succesful";
+        return "Update successful";
     }
 }

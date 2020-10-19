@@ -1,10 +1,10 @@
 package wenzinrestfulwebservicemodel.controllers;
 
+import org.springframework.web.bind.annotation.*;
 import wenzinrestfulwebservicemodel.beans.Course;
 import wenzinrestfulwebservicemodel.beans.Student;
 import wenzinrestfulwebservicemodel.beans.StudentRegistration;
 import wenzinrestfulwebservicemodel.beans.StudentRegistrationReply;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class StudentController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/register/course/{courseId}/student/{studentId}")
     public String addCourseToStudent(@PathVariable("studentId") String studentId,
-                                                       @PathVariable("courseId") String courseId) {
+                                     @PathVariable("courseId") String courseId) {
         return StudentRegistration.getInstance().addCourseToStudent(studentId, courseId);
     }
 
@@ -65,7 +65,7 @@ public class StudentController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/course/{courseId}/student/{studentId}")
     public String deleteCourseToStudent(@PathVariable("studentId") String studentId,
-                                     @PathVariable("courseId") String courseId) {
+                                        @PathVariable("courseId") String courseId) {
         return StudentRegistration.getInstance().deleteCourseToStudent(studentId, courseId);
     }
 }

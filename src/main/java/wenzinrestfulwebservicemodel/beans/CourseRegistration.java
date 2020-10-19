@@ -3,66 +3,50 @@ package wenzinrestfulwebservicemodel.beans;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CourseRegistration {
 
-    private List<Course> courseRecords;
+    private Map<String, Course> courseRecords;
 
-    private static CourseRegistration coursereg = null;
+    private static CourseRegistration courseReg = null;
 
     private CourseRegistration() {
-        courseRecords = new ArrayList<Course>();
+        courseRecords = new HashMap<>();
     }
 
     public static CourseRegistration getInstance() {
 
-        if (coursereg == null) {
-            coursereg = new CourseRegistration();
-            return coursereg;
-        } else {
-            return coursereg;
+        if (courseReg == null) {
+            courseReg = new CourseRegistration();
         }
+        return courseReg;
     }
 
-    public List<Course> getCourseRecords() {
+    public Map<String, Course> getCourseRecords() {
         return courseRecords;
     }
 
     public Course getCourseById(String courseId) {
-
-        for (int i = 0; i < courseRecords.size(); i++) {
-            Course courseDetails = courseRecords.get(i);
-            if (courseDetails.getId().equals(courseId)) {
-                return courseDetails;
-            }
+        Course course = courseRecords.get(courseId);
+        if (course == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course not found");
         }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course not found");
+        return course;
     }
 
-    public void  add(Course course) {courseRecords.add(course);}
+    public void add(Course course) {
+        courseRecords.put(course.getId(), course);
+    }
 
     public String updateCourse(Course course) {
-        for (int i = 0; i < courseRecords.size(); i++) {
-            Course course1 = courseRecords.get(i);
-            if (course1.getId().equals(course.getId())) {
-                courseRecords.set(i, course);
-                return "Update Successful";
-            }
-        }
-        return "Update un-succesful";
+        add(course);
+        return "Update succesful";
     }
 
     public String deleteCourse(String courseId) {
-
-        for (int i = 0; i < courseRecords.size(); i++) {
-            Course course = courseRecords.get(i);
-            if (course.getId().equals(courseId)) {
-                courseRecords.remove(i);
-                return "Delete successful";
-            }
-        }
-        return "Update un-successful";
+        courseRecords.remove(courseId);
+        return "Delete successful";
     }
 }
