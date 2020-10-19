@@ -37,8 +37,8 @@ public class CourseController {
         return CourseRegistration.getInstance().updateCourse(course);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/course/{id}")
-    public String deleteCourseRecord(@PathVariable("id") String id) {
-        return CourseRegistration.getInstance().deleteCourse(id);
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/course/{courseId}")
+    public String deleteCourseRecord(@PathVariable("courseId") String courseId) {
+        return CourseRegistration.getInstance().deleteCourse(courseId);
     }
 }

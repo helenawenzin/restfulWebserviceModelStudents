@@ -12,7 +12,7 @@ import java.util.List;
 public class StudentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/student/allstudents")
-    public List<Student> getStudents() {
+    public List<Student> getAllStudents() {
         return StudentRegistration.getInstance().getStudentRecords();
     }
 
@@ -50,20 +50,17 @@ public class StudentController {
     @RequestMapping(method = RequestMethod.POST, value = "/register/course/{courseId}/student/{studentId}")
     public String addCourseToStudent(@PathVariable("studentId") String studentId,
                                                        @PathVariable("courseId") String courseId) {
-
-        //StudentRegistrationReply stdregReply = new StudentRegistrationReply();
-
         return StudentRegistration.getInstance().addCourseToStudent(studentId, courseId);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/register/student")
-    public String updateStudentRecord(@RequestBody Student student) {
+    public String updateStudent(@RequestBody Student student) {
         return StudentRegistration.getInstance().updateStudent(student);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/student/{regdNum}")
-    public String deleteStudentRecord(@PathVariable("regdNum") String regdNum) {
-        return StudentRegistration.getInstance().deleteStudent(regdNum);
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/student/{studentId}")
+    public String deleteStudent(@PathVariable("studentId") String studentId) {
+        return StudentRegistration.getInstance().deleteStudent(studentId);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/course/{courseId}/student/{studentId}")

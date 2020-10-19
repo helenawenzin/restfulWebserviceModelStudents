@@ -38,11 +38,11 @@ public class StudentRegistration {
         return "Update un-succesful";
     }
 
-    public String deleteStudent(String registrationNumber) {
+    public String deleteStudent(String studentId) {
 
         for (int i = 0; i < studentRecords.size(); i++) {
             Student student = studentRecords.get(i);
-            if (student.getId().equals(registrationNumber)) {
+            if (student.getId().equals(studentId)) {
                 studentRecords.remove(i);
                 return "Delete successful";
             }
@@ -111,14 +111,13 @@ public class StudentRegistration {
     public String addCourseToStudent(String studentId, String courseId) {
 
         for (int i = 0; i < studentRecords.size(); i++) {
-            Student tempStudent = studentRecords.get(i);
-            if (tempStudent.getId().equals(studentId)) {
+            Student student = studentRecords.get(i);
+            if (student.getId().equals(studentId)) {
 
-                //add course to list<String>
-                Set<String> tempCourses = tempStudent.getCourses();
-                tempCourses.add(courseId);
-                tempStudent.setCourses(tempCourses);
-                studentRecords.set(i, tempStudent);
+                Set<String> courses = student.getCourses();
+                courses.add(courseId);
+                student.setCourses(courses);
+                studentRecords.set(i, student);
                 return "Update successful";
             }
         }
@@ -128,14 +127,13 @@ public class StudentRegistration {
     public String deleteCourseToStudent(String studentId, String courseId) {
 
         for (int i = 0; i < studentRecords.size(); i++) {
-            Student tempStudent = studentRecords.get(i);
-            if (tempStudent.getId().equals(studentId)) {
+            Student student = studentRecords.get(i);
+            if (student.getId().equals(studentId)) {
 
-                //delete course to list<String>
-                Set<String> tempCourses = tempStudent.getCourses();
-                tempCourses.remove(courseId);
-                tempStudent.setCourses(tempCourses);
-                studentRecords.set(i, tempStudent);
+                Set<String> courses = student.getCourses();
+                courses.remove(courseId);
+                student.setCourses(courses);
+                studentRecords.set(i, student);
                 return "Update successful";
             }
         }
