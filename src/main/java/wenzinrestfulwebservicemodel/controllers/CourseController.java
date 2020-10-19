@@ -9,9 +9,12 @@ import java.util.List;
 public class CourseController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/course/allcourses")
-    public List<Course> getStudent() {
+    public List<Course> getAllCourses() {
         return CourseRegistration.getInstance().getCourseRecords();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/course/{courseId}")
+    public Course getCoursebyId(@PathVariable("courseId") String courseId) { return CourseRegistration.getInstance().getCourseById(courseId);}
 
     @RequestMapping(method = RequestMethod.POST, value = "/register/course")
     public CourseRegistrationReply registerCourse(@RequestBody Course course) {

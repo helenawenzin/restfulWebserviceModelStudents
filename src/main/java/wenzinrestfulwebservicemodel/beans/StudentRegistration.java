@@ -2,6 +2,8 @@ package wenzinrestfulwebservicemodel.beans;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class StudentRegistration {
 
@@ -68,4 +70,75 @@ public class StudentRegistration {
         } return student;
     }
 
+    public List<Course> getAllCoursesForStudent(String studentId) {
+
+        Student student = new Student();
+
+        for (int i = 0; i < studentRecords.size(); i++) {
+            Student st = studentRecords.get(i);
+            if (st.getId().equals(studentId)) {
+                student.setCourses(st.getCourses());
+            }
+        }
+
+        List<Course> allCourses = CourseRegistration.getInstance().getCourseRecords();
+
+        List<Course> coursesForStudent = allCourses.stream()
+                .filter(course -> student.getCourses().contains(course.getId()))
+                .collect(Collectors.toList());
+
+        return coursesForStudent;
+    }
+
+    public Course getSpecificCourseForStudent(String studentId, String courseId) {
+
+        Student student = new Student();
+
+        for (int i = 0; i < studentRecords.size(); i++) {
+            Student st = studentRecords.get(i);
+            if (st.getId().equals(studentId)) {
+                student.setCourses(st.getCourses());
+            }
+        }
+
+        if (student.getCourses().contains(courseId)) {
+            return CourseRegistration.getInstance().getCourseById(courseId);
+        } else {
+            throw new IllegalArgumentException("Invalid courseId provided");
+        }
+    }
+
+    public String addCourseToStudent(String studentId, String courseId) {
+
+        for (int i = 0; i < studentRecords.size(); i++) {
+            Student tempStudent = studentRecords.get(i);
+            if (tempStudent.getId().equals(studentId)) {
+
+                //add course to list<String>
+                Set<String> tempCourses = tempStudent.getCourses();
+                tempCourses.add(courseId);
+                tempStudent.setCourses(tempCourses);
+                studentRecords.set(i, tempStudent);
+                return "Update successful";
+            }
+        }
+        return "Update not succesful";
+    }
+
+    public String deleteCourseToStudent(String studentId, String courseId) {
+
+        for (int i = 0; i < studentRecords.size(); i++) {
+            Student tempStudent = studentRecords.get(i);
+            if (tempStudent.getId().equals(studentId)) {
+
+                //delete course to list<String>
+                Set<String> tempCourses = tempStudent.getCourses();
+                tempCourses.remove(courseId);
+                tempStudent.setCourses(tempCourses);
+                studentRecords.set(i, tempStudent);
+                return "Update successful";
+            }
+        }
+        return "Update not succesful";
+    }
 }

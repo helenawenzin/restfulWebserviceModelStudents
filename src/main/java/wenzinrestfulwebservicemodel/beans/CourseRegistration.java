@@ -27,6 +27,19 @@ public class CourseRegistration {
         return courseRecords;
     }
 
+    public Course getCourseById(String courseId) {
+
+        for (int i = 0; i < courseRecords.size(); i++) {
+            Course courseDetails = courseRecords.get(i);
+            if (courseDetails.getId().equals(courseId)) {
+                return courseDetails;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
+        return null;
+    }
+
     public void  add(Course course) {courseRecords.add(course);}
 
     public String updateCourse(Course course) {
